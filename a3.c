@@ -1,17 +1,8 @@
-#include <time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <pthread.h>
-#include <string.h>
-#include <unistd.h>
-#include <signal.h>
-
-time_t rawtime;
-int hours, minutes, seconds;
+#include "a3.h"
 
 void* monitorCountdownTimer(void* runTime){
 	int iterations = *(int*)runTime;
-	hours = iterations / 3600;
+	hours = iterations / 3600; 
 	minutes = (iterations / 60) % 60;
 	seconds = iterations % 60;
 	int i;
@@ -21,14 +12,12 @@ void* monitorCountdownTimer(void* runTime){
 			seconds = 59;
 			if (--minutes == -1){ //decrease the minutes and set them back to 59 if an hour is over
 				minutes = 59;
-				hours--; //decrease the ours
+				hours--; //decrease the hours
 			}
 		}
 		sleep(1);
 	}
 	printf("You're late! You're late! For a very important date!\n");
-	//kill sibling
-	//commit sudoku
 }
 
 void* wallClock(void* runTime){
@@ -44,8 +33,6 @@ void* wallClock(void* runTime){
 }
 
 int main(int argc, char * argv[]){
-	int runTime;
-	pthread_t thread1, thread2;
 	if (argc == 2) {
 		runTime = atoi(argv[1]);
 	} else {
